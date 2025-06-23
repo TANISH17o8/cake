@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,8 @@
     body {
       margin: 0;
       padding: 0;
-      background: url('birthday-bg.jpg') no-repeat center center/cover;
+      /* 🔄 Replace 'your-image.jpg' with your custom background image path */
+      background: url('bg.jpg') no-repeat center center/cover;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
@@ -17,15 +17,18 @@
       height: 100vh;
       flex-direction: column;
     }
+
     .teddy {
       width: 150px;
       animation: bounce 2s infinite;
       margin-top: 20px;
     }
+
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+
     .message-box {
       background: rgba(255, 255, 255, 0.85);
       padding: 20px;
@@ -36,14 +39,17 @@
       text-align: center;
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
+
     #text {
       font-size: 1.2em;
       color: #333;
       min-height: 60px;
     }
+
     .hearts {
       margin-top: 10px;
     }
+
     .hearts span {
       font-size: 24px;
       margin: 0 5px;
@@ -51,10 +57,13 @@
       display: inline-block;
       transition: transform 0.2s;
     }
+
     .hearts span:hover {
       transform: scale(1.3);
     }
+
     .hidden { display: none; }
+
     .btn {
       margin-top: 10px;
       padding: 10px 20px;
@@ -68,7 +77,10 @@
   </style>
 </head>
 <body>
+  <!-- 🧸 Animated Teddy -->
   <img src="https://media.tenor.com/HLj0kHd8N7gAAAAi/teddy-bear-love.gif" class="teddy" alt="Teddy Bear" />
+
+  <!-- 💬 Message Box -->
   <div class="message-box">
     <div id="text">I have something for you...🥰🥳</div>
     <button class="btn" onclick="startHearts()" id="startBtn">Tap to Continue</button>
@@ -76,6 +88,7 @@
     <button class="btn hidden" id="continueBtn" onclick="window.location.href='page4.html'">Continue 🥰</button>
   </div>
 
+  <!-- 💻 Script for Heart Interaction and Typewriter Effect -->
   <script>
     const messages = [
       "wait...😄",
@@ -85,6 +98,7 @@
       "I hope you have a long life... So you can treat me every year😁😁🙄",
       "Just Kidding 😆"
     ];
+
     let heartsLeft = 5;
     const textEl = document.getElementById("text");
     const heartsDiv = document.getElementById("hearts");
@@ -92,6 +106,7 @@
     function startHearts() {
       document.getElementById("startBtn").classList.add("hidden");
       heartsDiv.classList.remove("hidden");
+
       for (let i = 0; i < 5; i++) {
         let heart = document.createElement("span");
         heart.textContent = "❤️";
