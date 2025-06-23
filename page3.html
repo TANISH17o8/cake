@@ -1,93 +1,122 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<!-- PAGE 1: Surprise Box with Floating Balloons --><!-- (already completed above) --><!-- PAGE 2: Password Protected Page --><!-- (already completed above) --><!-- PAGE 3: Floating Message with Hearts and Typewriter Text --><!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Surprise for You</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Message</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background-color: #000;
-      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      background: url('https://i.imgur.com/hZGnEfK.jpg') no-repeat center center/cover;
       font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      text-align: center;
-    }
-    .container {
-      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
       flex-direction: column;
-      position: relative;
-      z-index: 2;
     }
-    .gift {
-      font-size: 80px;
-      cursor: pointer;
-      animation: pop 1s infinite alternate;
+    .teddy {
+      width: 150px;
+      animation: bounce 2s infinite;
+      margin-top: 20px;
     }
-    @keyframes pop {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
-    .text-top, .text-bottom {
+    .message-box {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      margin-top: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    #text {
       font-size: 1.2em;
-      margin: 10px;
+      color: #333;
+      min-height: 60px;
     }
-
-    .balloon {
-      position: absolute;
-      width: 40px;
-      height: 55px;
-      border-radius: 50% 50% 45% 45%;
-      animation: floatUp 10s linear infinite;
-      opacity: 0.9;
+    .hearts {
+      margin-top: 10px;
     }
-
-    .balloon::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      width: 2px;
-      height: 25px;
-      background-color: white;
-      transform: translateX(-50%);
+    .hearts span {
+      font-size: 24px;
+      margin: 0 5px;
+      cursor: pointer;
     }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-150px);
-        opacity: 0;
-      }
+    .hidden { display: none; }
+    .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background: #ff69b4;
+      color: white;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="text-top">Click on the BOX!</div>
-    <div class="gift" onclick="window.location.href='page2.html'">🎁</div>
-    <div class="text-bottom">I Have A Surprise For Youuu!</div>
-  </div>
+  <img src="https://media.tenor.com/HLj0kHd8N7gAAAAi/teddy-bear-love.gif" class="teddy" alt="Teddy Bear" />
+  <div class="message-box">
+    <div id="text">I have something for you...🥰🥳</div>
+    <button class="btn" onclick="startHearts()" id="startBtn">Tap to Continue</button>
+    <div class="hearts hidden" id="hearts"></div>
+    <button class="btn hidden" id="continueBtn" onclick="window.location.href='page4.html'">Continue 🥰</button>
+  </div>  <script>
+    const messages = [
+      "wait...😄",
+      "Someone has a birthday today?",
+      "Happy Birthday To you🎂🎂",
+      "Hehe.. You are getting elder 😂",
+      "I hope you have a long life... So you can treat me every year😁😁🙄",
+      "Just Kidding 😆"
+    ];
+    let heartCount = 5;
+    let typedText = document.getElementById("text");
 
-  <script>
-    const colors = ['#ff4d4d', '#ff66cc', '#66ccff', '#ffd11a', '#66ff66'];
-    const totalBalloons = 30;
-
-    for (let i = 0; i < totalBalloons; i++) {
-      let balloon = document.createElement('div');
-      balloon.classList.add('balloon');
-      balloon.style.left = Math.random() * 100 + 'vw';
-      balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      balloon.style.animationDuration = (6 + Math.random() * 4) + 's';
-      document.body.appendChild(balloon);
+    function startHearts() {
+      document.getElementById("startBtn").classList.add("hidden");
+      let hearts = document.getElementById("hearts");
+      hearts.classList.remove("hidden");
+      for (let i = 0; i < heartCount; i++) {
+        let span = document.createElement("span");
+        span.textContent = "❤️";
+        span.addEventListener("click", () => {
+          span.style.visibility = "hidden";
+          heartCount--;
+          if (heartCount === 0) showMessages();
+        });
+        hearts.appendChild(span);
+      }
     }
-  </script>
-</body>
-</html>
+
+    function showMessages(index = 0) {
+      if (index >= messages.length) {
+        document.getElementById("continueBtn").classList.remove("hidden");
+        return;
+      }
+      typeWriter(messages[index], () => showMessages(index + 1));
+    }
+
+    function typeWriter(text, callback) {
+      let i = 0;
+      typedText.textContent = "";
+      const speed = 50;
+      function type() {
+        if (i < text.length) {
+          typedText.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          setTimeout(callback, 1000);
+        }
+      }
+      type();
+    }
+  </script></body>
+</html><!-- Next: page4.html (Gift Question), page5.html (Cake Maker) -->
