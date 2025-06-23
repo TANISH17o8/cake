@@ -1,4 +1,5 @@
-<!-- PAGE 1: Surprise Box with Floating Balloons --><!-- (already completed above) --><!-- PAGE 2: Password Protected Page --><!-- (already completed above) --><!-- PAGE 3: Floating Message with Hearts and Typewriter Text --><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,6 +47,11 @@
       font-size: 24px;
       margin: 0 5px;
       cursor: pointer;
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .hearts span:hover {
+      transform: scale(1.3);
     }
     .hidden { display: none; }
     .btn {
@@ -67,7 +73,9 @@
     <button class="btn" onclick="startHearts()" id="startBtn">Tap to Continue</button>
     <div class="hearts hidden" id="hearts"></div>
     <button class="btn hidden" id="continueBtn" onclick="window.location.href='page4.html'">Continue 🥰</button>
-  </div>  <script>
+  </div>
+
+  <script>
     const messages = [
       "wait...😄",
       "Someone has a birthday today?",
@@ -76,22 +84,24 @@
       "I hope you have a long life... So you can treat me every year😁😁🙄",
       "Just Kidding 😆"
     ];
-    let heartCount = 5;
-    let typedText = document.getElementById("text");
+    let heartsLeft = 5;
+    const textEl = document.getElementById("text");
+    const heartsDiv = document.getElementById("hearts");
 
     function startHearts() {
       document.getElementById("startBtn").classList.add("hidden");
-      let hearts = document.getElementById("hearts");
-      hearts.classList.remove("hidden");
-      for (let i = 0; i < heartCount; i++) {
-        let span = document.createElement("span");
-        span.textContent = "❤️";
-        span.addEventListener("click", () => {
-          span.style.visibility = "hidden";
-          heartCount--;
-          if (heartCount === 0) showMessages();
-        });
-        hearts.appendChild(span);
+      heartsDiv.classList.remove("hidden");
+      for (let i = 0; i < 5; i++) {
+        let heart = document.createElement("span");
+        heart.textContent = "❤️";
+        heart.onclick = () => {
+          heart.style.visibility = "hidden";
+          heartsLeft--;
+          if (heartsLeft === 0) {
+            showMessages();
+          }
+        };
+        heartsDiv.appendChild(heart);
       }
     }
 
@@ -105,18 +115,18 @@
 
     function typeWriter(text, callback) {
       let i = 0;
-      typedText.textContent = "";
-      const speed = 50;
-      function type() {
+      textEl.textContent = "";
+      function typing() {
         if (i < text.length) {
-          typedText.textContent += text.charAt(i);
+          textEl.textContent += text.charAt(i);
           i++;
-          setTimeout(type, speed);
+          setTimeout(typing, 50);
         } else {
           setTimeout(callback, 1000);
         }
       }
-      type();
+      typing();
     }
-  </script></body>
-</html><!-- Next: page4.html (Gift Question), page5.html (Cake Maker) -->
+  </script>
+</body>
+</html>
